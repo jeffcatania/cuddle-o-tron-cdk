@@ -6,6 +6,12 @@ The purpose of this repo is to codify the skills that I've learned from the cour
 
 The `cdk.json` file tells the CDK Toolkit how to execute the app.
 
+## Architecture
+
+The architecture of the project will follow the architecture of Adrian's lesson. 
+![End State Architecture](ARCHITECTURE-ENDSTATE.png)
+
+
 ## Useful commands
 
 * `npm run build`   compile typescript to js
