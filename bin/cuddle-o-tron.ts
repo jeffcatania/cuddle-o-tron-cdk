@@ -2,6 +2,19 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CuddleOTronStack } from '../lib/cuddle-o-tron-stack';
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+
+
+// Setup DotEnv
+dotenv.config()
+const result = dotenv.config()
+
+if (result.error) {
+  throw result.error
+}
+
+
+console.log("loaded environment variables:", result.parsed)
 
 const app = new cdk.App();
 new CuddleOTronStack(app, 'CuddleOTronStack', {
