@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { VerifySesEmailAddress } from '@seeebiii/ses-verify-identities';
 import { RemovalPolicy } from 'aws-cdk-lib';
+import { EmailReminderLambdaConstruct } from './email-reminder-lambda-construct';
 
 
 export class CuddleOTronStack extends cdk.Stack {
@@ -18,6 +19,8 @@ export class CuddleOTronStack extends cdk.Stack {
       emailAddress: process.env.SES_VERIFIED_RECEIVER_EMAIL as string,
       removalPolicy: RemovalPolicy.RETAIN
     })
+
+    new EmailReminderLambdaConstruct(this, 'EmailReminderService', {})
 
     // example resource
     // const queue = new sqs.Queue(this, 'CuddleOTronQueue', {

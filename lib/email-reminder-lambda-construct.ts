@@ -2,7 +2,7 @@ import { aws_lambda as lambda, aws_iam as iam } from 'aws-cdk-lib';
 import { Effect } from 'aws-cdk-lib/aws-iam';
 import {Construct} from 'constructs';
 import path = require('path');
-import { SES_VERIFIED_SENDER_EMAIL } from './util/environment';
+import { PROJECT_ROOT_PATH } from './util/environment';
 
 
 export interface EmailReminderLambdaConstructProps {
@@ -43,10 +43,11 @@ export interface EmailReminderLambdaConstructProps {
       const fn = new lambda.Function(this, 'MyFunction', {
         runtime: lambda.Runtime.PYTHON_3_9,
         handler: 'lambda.handler',
-        code: lambda.Code.fromAsset(path.join(__dirname, 'resources', 'lambda', 'email-reminder')),
+        code: lambda.Code.fromAsset(path.join(PROJECT_ROOT_PATH, 'resources', 'lambda', 'email-reminder')),
         role: lambdaRole,
         environment: {
-          FROM_EMAIL_ADDRESS: SES_VERIFIED_SENDER_EMAIL
+          'FROM_EMAIL_ADDRESS': process.env.SES_VERIFIED_SENDER_EMAIL as string,
+          'ENV': 'dev'
         }
       });
 

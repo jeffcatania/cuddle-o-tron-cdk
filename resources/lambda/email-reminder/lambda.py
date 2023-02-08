@@ -1,6 +1,6 @@
 import boto3, os, json
 
-FROM_EMAIL_ADDRESS = os['FROM_EMAIL_ADDRESS']
+FROM_EMAIL_ADDRESS = os.environ['FROM_EMAIL_ADDRESS']
 
 ses = boto3.client('ses')
 
