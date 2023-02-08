@@ -18,10 +18,4 @@ describe('Email reminder service', () => {
         })
     })
 
-   //test('receiver identity created', () => {
-   // template.hasResourceProperties('Custom::AWS', {
-   //     Create: '{"service":"SES","action":"verifyEmailIdentity","parameters":{"EmailAddress":"to@example.com"},"physicalResourceId":{"id":"verify-to@example.com"}}'
-   // })
-   //})
-
 });
