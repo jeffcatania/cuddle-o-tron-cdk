@@ -23,17 +23,20 @@ jobs:
         cache: 'npm'
     - name: Install CDK
       run: npm install -g aws-cdk
+    - name: Install Node dependencies
+      run: npm install
     - name: Test CDK Node code 
       run: |
         npm run test 
-    - name: Create build directory
-      run: |
-        mkdir build
-    - name: Synth CDK construct as CloudFormation stack 
-      run: |
-        cdk synth > build/cloudformation_build.yml
-    - name: Archive cloudformation build
-      uses: actions/upload-artifact@v3
-      with:
-        name: cloudformation-build
-        path: build/cloudformation_build.yml
+    # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions. 
+    #- name: Create build directory
+    #  run: |
+    #    mkdir build
+    #- name: Synth CDK construct as CloudFormation stack 
+    #  run: |
+    #    cdk synth > build/cloudformation_build.yml
+    #- name: Archive cloudformation build
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: cloudformation-build
+    #    path: build/cloudformation_build.yml
