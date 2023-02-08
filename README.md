@@ -11,6 +11,10 @@ The `cdk.json` file tells the CDK Toolkit how to execute the app.
 The architecture of the project will follow the architecture of Adrian's lesson. 
 ![End State Architecture](ARCHITECTURE-ENDSTATE.png)
 
+# Steps to run
+0. [Install CDK](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) and run `cdk bootstrap` to setup your cdk environment if you haven't already.
+1. Rename `.env.example` to `.env` to enable dotenv environment variables
+2. Update environment variables in `.env` file for your configuration.
 
 ## Useful commands
 
