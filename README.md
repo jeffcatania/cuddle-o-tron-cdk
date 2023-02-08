@@ -1,8 +1,10 @@
-# Welcome to your CDK TypeScript project
+# Welcome to Pet Cuddle-o-tron CDK project
 
-This is a blank project for CDK development with TypeScript.
+This project is a Typescript CDK implementation of Adrian Cantrill's [aws-serverless-pet-cuddle-o-tron](https://github.com/acantril/learn-cantrill-io-labs/tree/master/aws-serverless-pet-cuddle-o-tron).
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The purpose of this repo is to codify the skills that I've learned from the course, learn CDK, and serve as a template for similar architectures.
+
+The `cdk.json` file tells the CDK Toolkit how to execute the app.
 
 ## Useful commands
 
