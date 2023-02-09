@@ -5,9 +5,9 @@ name: cuddle-o-tron package
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   backend:
@@ -16,23 +16,23 @@ jobs:
       fail-fast: false
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18 
-        cache: 'npm'
-    - name: Install CDK
-      run: npm install -g aws-cdk
-    - name: Install Node dependencies
-      run: npm install
-    - name: Test CDK Node code 
-      run: |
-        npm run test 
-    # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions. 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - name: Install CDK
+        run: npm install -g aws-cdk
+      - name: Install Node dependencies
+        run: npm install
+      - name: Test CDK Node code
+        run: |
+          npm run test
+    # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions.
     #- name: Create build directory
     #  run: |
     #    mkdir build
-    #- name: Synth CDK construct as CloudFormation stack 
+    #- name: Synth CDK construct as CloudFormation stack
     #  run: |
     #    cdk synth > build/cloudformation_build.yml
     #- name: Archive cloudformation build
