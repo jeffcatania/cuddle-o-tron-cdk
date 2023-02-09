@@ -9,8 +9,8 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "prepare": "husky install"
-
+    "prepare": "husky install",
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "@types/jest": "^29.2.4",
@@ -33,5 +33,11 @@
   },
   "lint-staged": {
     "*.{js,css,md,ts}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "lint-staged"
+    }
   }
 }
