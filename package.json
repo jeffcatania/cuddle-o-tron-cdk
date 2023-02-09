@@ -1,6 +1,6 @@
 {
   "name": "cuddle-o-tron",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": {
     "cuddle-o-tron": "bin/cuddle-o-tron.js"
   },
