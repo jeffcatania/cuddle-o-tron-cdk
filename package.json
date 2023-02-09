@@ -31,13 +31,13 @@
     "dotenv": "^16.0.3",
     "source-map-support": "^0.5.21"
   },
-  "lint-staged": {
-    "*.{js,css,md,ts}": "prettier --write"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
       "pre-push": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts}": ["prettier --write", "git add"]
   }
 }
