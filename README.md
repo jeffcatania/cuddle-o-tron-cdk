@@ -8,19 +8,20 @@ The `cdk.json` file tells the CDK Toolkit how to execute the app.
 
 ## Architecture
 
-The architecture of the project will follow the architecture of Adrian's lesson. 
+The architecture of the project will follow the architecture of Adrian's lesson.
 ![End State Architecture](ARCHITECTURE-ENDSTATE.png)
 
 # Steps to run
+
 0. [Install CDK](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) and run `cdk bootstrap` to setup your cdk environment if you haven't already.
 1. Rename `.env.example` to `.env` to enable dotenv environment variables
 2. Update environment variables in `.env` file for your configuration.
 
 ## Useful commands
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+- `npm run build` compile typescript to js
+- `npm run watch` watch for changes and compile
+- `npm run test` perform the jest unit tests
+- `cdk deploy` deploy this stack to your default AWS account/region
+- `cdk diff` compare deployed stack with current state
+- `cdk synth` emits the synthesized CloudFormation template
