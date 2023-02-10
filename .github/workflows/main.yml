@@ -12,6 +12,7 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    environment: DEV
     strategy:
       fail-fast: false
 
