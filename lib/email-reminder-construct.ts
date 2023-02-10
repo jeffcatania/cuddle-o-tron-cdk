@@ -89,7 +89,7 @@ export class EmailReminderConstruct extends Construct {
       },
     });
 
-    const fn = new lambda.Function(this, "MyFunction", {
+    const emailLambdaFunction = new lambda.Function(this, "MyFunction", {
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: "lambda.handler",
       code: lambda.Code.fromAsset(
@@ -115,7 +115,7 @@ export class EmailReminderConstruct extends Construct {
           Type: "Task",
           Resource: "arn:aws:states:::lambda:invoke",
           Parameters: {
-            FunctionName: "EMAIL_LAMBDA_ARN",
+            FunctionName: emailLambdaFunction.functionArn,
             Payload: {
               "Input.$": "$",
             },
