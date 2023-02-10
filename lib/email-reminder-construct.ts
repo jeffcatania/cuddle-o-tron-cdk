@@ -149,5 +149,27 @@ export class EmailReminderConstruct extends Construct {
       definitionString: JSON.stringify(asl),
       loggingConfiguration: loggingConfigurationProperty,
     });
+
+    const handleAPIRequestFunction = new lambda.Function(
+      this,
+      "HandleAPIRequestLambda",
+      {
+        runtime: lambda.Runtime.PYTHON_3_9,
+        handler: "lambda.handler",
+        code: lambda.Code.fromAsset(
+          path.join(
+            PROJECT_ROOT_PATH,
+            "resources",
+            "lambda",
+            "handle-api-request"
+          )
+        ),
+        role: lambdaRole,
+        environment: {
+          STATE_MACHINE_ARN: stateMachine.attrArn,
+          ENV: "dev",
+        },
+      }
+    );
   }
 }
