@@ -1,6 +1,6 @@
 # Welcome to Pet Cuddle-o-tron CDK project
 
-This project is a Typescript CDK implementation of Adrian Cantrill's [aws-serverless-pet-cuddle-o-tron](https://github.com/acantril/learn-cantrill-io-labs/tree/master/aws-serverless-pet-cuddle-o-tron).
+This project is a Typescript CDK implementation of Adrian Cantrill's [aws-serverless-pet-cuddle-o-tron](https://github.com/acantril/learn-cantrill-io-labs/tree/master/aws-serverless-pet-cuddle-o-tron). If you are new to learning AWS, I cannot recommend his [Solution Architect Associate course](https://learn.cantrill.io/) enough.
 
 The purpose of this repo is to codify the skills that I've learned from the course, learn CDK, and serve as a template for similar architectures.
 
