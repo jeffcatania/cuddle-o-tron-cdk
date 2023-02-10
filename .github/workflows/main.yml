@@ -30,7 +30,9 @@ jobs:
           npm run test
       - name: Test CDK Node code AGAIN1
         run: |
+          echo "SES_VERIFIED_SENDER_EMAIL=${{vars.SES_VERIFIED_SENDER_EMAIL}}"
           echo "SES_VERIFIED_SENDER_EMAIL=${{vars.SES_VERIFIED_SENDER_EMAIL}}" >> .env
+          echo "SES_VERIFIED_RECEIVER_EMAIL=${{vars.SES_VERIFIED_RECEIVER_EMAIL}}"
           echo "SES_VERIFIED_RECEIVER_EMAIL=${{vars.SES_VERIFIED_RECEIVER_EMAIL}}" >> .env
           cat .env
       - name: Deploy to AWS
