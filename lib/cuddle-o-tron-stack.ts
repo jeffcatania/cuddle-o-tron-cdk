@@ -3,7 +3,7 @@ import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { VerifySesEmailAddress } from "@seeebiii/ses-verify-identities";
 import { RemovalPolicy } from "aws-cdk-lib";
-import { EmailReminderConstruct } from "./email-reminder-lambda-construct";
+import { EmailReminderConstruct } from "./email-reminder-construct";
 
 export class CuddleOTronStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {

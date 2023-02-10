@@ -31,7 +31,9 @@ The architecture of the project will follow the architecture of Adrian's lesson.
 - `cdk synth` emits the synthesized CloudFormation template
 
 ## Non Functional Requirements
+
 I am using the project as a testing ground for good code hygiene practices as I intend to use this as a basis for future AWS projects.
+
 - Running CDK using Typescript
 - Automated testing using Jest and the CDK Template framework. Aiming for 75% code coverage.
 - Automated Code Linting with [Prettier](https://prettier.io/docs/en/precommit.html) via git pre-commit hook.

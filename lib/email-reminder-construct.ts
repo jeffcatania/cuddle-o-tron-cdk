@@ -3,6 +3,8 @@ import {
   aws_iam as iam,
   aws_stepfunctions as sfn,
   aws_stepfunctions_tasks as tasks,
+  aws_apigateway as apigateway,
+  Duration,
 } from "aws-cdk-lib";
 import { Effect } from "aws-cdk-lib/aws-iam";
 import { LogGroup, LogStream } from "aws-cdk-lib/aws-logs";
@@ -87,7 +89,7 @@ export class EmailReminderConstruct extends Construct {
       },
     });
 
-    const fn = new lambda.Function(this, "MyFunction", {
+    const emailLambdaFunction = new lambda.Function(this, "MyFunction", {
       runtime: lambda.Runtime.PYTHON_3_9,
       handler: "lambda.handler",
       code: lambda.Code.fromAsset(
@@ -113,7 +115,7 @@ export class EmailReminderConstruct extends Construct {
           Type: "Task",
           Resource: "arn:aws:states:::lambda:invoke",
           Parameters: {
-            FunctionName: "EMAIL_LAMBDA_ARN",
+            FunctionName: emailLambdaFunction.functionArn,
             Payload: {
               "Input.$": "$",
             },
@@ -149,5 +151,46 @@ export class EmailReminderConstruct extends Construct {
       definitionString: JSON.stringify(asl),
       loggingConfiguration: loggingConfigurationProperty,
     });
+
+    const handleAPIRequestFunction = new lambda.Function(
+      this,
+      "HandleAPIRequestLambda",
+      {
+        runtime: lambda.Runtime.PYTHON_3_9,
+        handler: "lambda.handler",
+        code: lambda.Code.fromAsset(
+          path.join(
+            PROJECT_ROOT_PATH,
+            "resources",
+            "lambda",
+            "handle-api-request"
+          )
+        ),
+        role: lambdaRole,
+        environment: {
+          STATE_MACHINE_ARN: stateMachine.attrArn,
+          ENV: "dev",
+        },
+      }
+    );
+
+    const api = new apigateway.RestApi(this, "petcuddleotron", {
+      endpointTypes: [apigateway.EndpointType.REGIONAL],
+    });
+
+    const petCuddleotronResource = api.root.addResource("petcuddleotron", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+      },
+    });
+
+    petCuddleotronResource.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(handleAPIRequestFunction, {
+        proxy: true,
+        timeout: Duration.seconds(3),
+      })
+    );
   }
 }
