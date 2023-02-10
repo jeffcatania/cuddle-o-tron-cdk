@@ -1,0 +1,3 @@
+let CONFIG = {
+  API_ENDPOINT: "REPLACED_BY_CDK",
+};
