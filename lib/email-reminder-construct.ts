@@ -3,6 +3,8 @@ import {
   aws_iam as iam,
   aws_stepfunctions as sfn,
   aws_stepfunctions_tasks as tasks,
+  aws_apigateway as apigateway,
+  Duration,
 } from "aws-cdk-lib";
 import { Effect } from "aws-cdk-lib/aws-iam";
 import { LogGroup, LogStream } from "aws-cdk-lib/aws-logs";
@@ -170,6 +172,25 @@ export class EmailReminderConstruct extends Construct {
           ENV: "dev",
         },
       }
+    );
+
+    const api = new apigateway.RestApi(this, "petcuddleotron", {
+      endpointTypes: [apigateway.EndpointType.REGIONAL],
+    });
+
+    const petCuddleotronResource = api.root.addResource("petcuddleotron", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+      },
+    });
+
+    petCuddleotronResource.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(handleAPIRequestFunction, {
+        proxy: true,
+        timeout: Duration.seconds(3),
+      })
     );
   }
 }
