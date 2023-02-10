@@ -36,4 +36,4 @@ I am using the project as a testing ground for good code hygiene practices as I 
 - Automated testing using Jest and the CDK Template framework. Aiming for 75% code coverage.
 - Automated Code Linting with [Prettier](https://prettier.io/docs/en/precommit.html) via git pre-commit hook.
 
-I'd love to also include mocking and runners for Lambda functions, but that will come later.
+I'd love to also include mocking and runners for Lambda functions and integration tests, but that will come later.
