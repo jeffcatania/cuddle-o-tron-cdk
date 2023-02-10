@@ -25,6 +25,15 @@ The architecture of the project will follow the architecture of Adrian's lesson.
 - `npm run build` compile typescript to js
 - `npm run watch` watch for changes and compile
 - `npm run test` perform the jest unit tests
+- `npm run test-coverage` perform the jest unit tests with code coverage report
 - `cdk deploy` deploy this stack to your default AWS account/region
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
+
+## Non Functional Requirements
+I am using the project as a testing ground for good code hygiene practices as I intend to use this as a basis for future AWS projects.
+- Running CDK using Typescript
+- Automated testing using Jest and the CDK Template framework. Aiming for 75% code coverage.
+- Automated Code Linting with [Prettier](https://prettier.io/docs/en/precommit.html) via git pre-commit hook.
+
+I'd love to also include mocking and runners for Lambda functions, but that will come later.
