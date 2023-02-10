@@ -43,8 +43,9 @@ I am using the project as a testing ground for good code hygiene practices as I 
 - GitHub action for CI.
 
 ## TODO
-* Write integration tests for each stage of the pipeline
+* Write integration tests for each stage of the pipeline.
 * Refactor Email Reminder Construct file to seperate files.
+* Add CD to GitHub Action.
 * Migrate Lambda code from Python to Typescript for consistency. Include unit tests.
 * Add code generators for new initializing new constructs, s3, and lambdas. (I like hygen)
 * Templatize this whole codebase for use in future projects.
