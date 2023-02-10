@@ -28,6 +28,15 @@ jobs:
       - name: Test CDK Node code
         run: |
           npm run test
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+      - name: Deploy to AWS
+        run: cdk deploy --require-approval=never
+
     # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions.
     #- name: Create build directory
     #  run: |
