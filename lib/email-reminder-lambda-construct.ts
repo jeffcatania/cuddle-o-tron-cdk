@@ -1,5 +1,11 @@
-import { aws_lambda as lambda, aws_iam as iam } from "aws-cdk-lib";
+import {
+  aws_lambda as lambda,
+  aws_iam as iam,
+  aws_stepfunctions as sfn,
+  aws_stepfunctions_tasks as tasks,
+} from "aws-cdk-lib";
 import { Effect } from "aws-cdk-lib/aws-iam";
+import { LogGroup, LogStream } from "aws-cdk-lib/aws-logs";
 import { Construct } from "constructs";
 import path = require("path");
 import { PROJECT_ROOT_PATH } from "./util/environment";
@@ -8,7 +14,8 @@ export interface EmailReminderLambdaConstructProps {
   prefix?: string;
 }
 
-export class EmailReminderLambdaConstruct extends Construct {
+export class EmailReminderConstruct extends Construct {
+  lambdaFn: lambda.Function;
   constructor(
     scope: Construct,
     id: string,
@@ -33,7 +40,45 @@ export class EmailReminderLambdaConstruct extends Construct {
         cloudwatchlogs: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
-              actions: ["cloudwatch:*"],
+              actions: ["cloudwatch:*", "logs:*"],
+              resources: ["*"],
+              effect: Effect.ALLOW,
+            }),
+          ],
+        }),
+      },
+    });
+
+    const stateMachineRole = new iam.Role(this, "StateMachineRole", {
+      assumedBy: new iam.ServicePrincipal("states.amazonaws.com"),
+      description:
+        "Execution role for StateMachine to allow access to SES, SNS, State Machine, and Cloudwatch",
+      inlinePolicies: {
+        snsandsespermissions: new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              actions: ["lambda:InvokeFunction", "sns:*"],
+              resources: ["*"],
+              effect: Effect.ALLOW,
+            }),
+          ],
+        }),
+        cloudwatchlogs: new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              actions: [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:CreateLogDelivery",
+                "logs:GetLogDelivery",
+                "logs:UpdateLogDelivery",
+                "logs:DeleteLogDelivery",
+                "logs:ListLogDeliveries",
+                "logs:PutResourcePolicy",
+                "logs:DescribeResourcePolicies",
+                "logs:DescribeLogGroups",
+              ],
               resources: ["*"],
               effect: Effect.ALLOW,
             }),
@@ -55,11 +100,54 @@ export class EmailReminderLambdaConstruct extends Construct {
       },
     });
 
-    /* 
-      const bucket = new s3.Bucket(this, 'bucket');
-      const topic = new sns.Topic(this, 'topic');
-      bucket.addObjectCreatedNotification(new s3notify.SnsDestination(topic),
-        { prefix: props.prefix });
-        */
+    const asl = {
+      Comment: "Pet Cuddle-o-Tron - using Lambda for email.",
+      StartAt: "Timer",
+      States: {
+        Timer: {
+          Type: "Wait",
+          SecondsPath: "$.waitSeconds",
+          Next: "Email",
+        },
+        Email: {
+          Type: "Task",
+          Resource: "arn:aws:states:::lambda:invoke",
+          Parameters: {
+            FunctionName: "EMAIL_LAMBDA_ARN",
+            Payload: {
+              "Input.$": "$",
+            },
+          },
+          Next: "NextState",
+        },
+        NextState: {
+          Type: "Pass",
+          End: true,
+        },
+      },
+    };
+
+    const logGroup = new LogGroup(
+      this,
+      "Email Reminder State Machine Log Group"
+    );
+    const loggingConfigurationProperty: sfn.CfnStateMachine.LoggingConfigurationProperty =
+      {
+        destinations: [
+          {
+            cloudWatchLogsLogGroup: {
+              logGroupArn: logGroup.logGroupArn,
+            },
+          },
+        ],
+        includeExecutionData: true,
+        level: "ALL",
+      };
+
+    const stateMachine = new sfn.CfnStateMachine(this, "PetCuddleOTron", {
+      roleArn: stateMachineRole.roleArn,
+      definitionString: JSON.stringify(asl),
+      loggingConfiguration: loggingConfigurationProperty,
+    });
   }
 }

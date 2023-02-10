@@ -3,7 +3,7 @@ import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { VerifySesEmailAddress } from "@seeebiii/ses-verify-identities";
 import { RemovalPolicy } from "aws-cdk-lib";
-import { EmailReminderLambdaConstruct } from "./email-reminder-lambda-construct";
+import { EmailReminderConstruct } from "./email-reminder-lambda-construct";
 
 export class CuddleOTronStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -19,11 +19,10 @@ export class CuddleOTronStack extends cdk.Stack {
       removalPolicy: RemovalPolicy.RETAIN,
     });
 
-    new EmailReminderLambdaConstruct(this, "EmailReminderService", {});
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'CuddleOTronQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const emailReminderConstruct = new EmailReminderConstruct(
+      this,
+      "EmailReminderService",
+      {}
+    );
   }
 }
