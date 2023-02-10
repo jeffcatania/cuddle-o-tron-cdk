@@ -28,19 +28,16 @@ jobs:
       - name: Test CDK Node code
         run: |
           npm run test
-      - name: Create and populate .env
+      - name: Test CDK Node code AGAIN1
         run: |
-        touch .env
-        echo SES_VERIFIED_SENDER_EMAIL="${{vars.SES_VERIFIED_SENDER_EMAIL}}" >> .env
-        echo SES_VERIFIED_RECEIVER_EMAIL="${{vars.SES_VERIFIED_RECEIVER_EMAIL}}" >> .env
-        echo "cat .env"
-        cat .env
-      shell: bash
+          echo "SES_VERIFIED_SENDER_EMAIL=${{vars.SES_VERIFIED_SENDER_EMAIL}}" >> .env
+          echo "SES_VERIFIED_RECEIVER_EMAIL=${{vars.SES_VERIFIED_RECEIVER_EMAIL}}" >> .env
       - name: Deploy to AWS
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "us-east-1"
+        shell: bash
         run: cdk deploy --require-approval=never
 
     # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions.
