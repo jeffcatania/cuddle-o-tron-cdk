@@ -4,7 +4,7 @@ FROM_EMAIL_ADDRESS = os.environ['FROM_EMAIL_ADDRESS']
 
 ses = boto3.client('ses')
 
-def lambda_handler(event, context):
+def handler(event, context):
     # Print event data to logs .. 
     print("Received event: " + json.dumps(event))
     # Publish message directly to email, provided by EmailOnly or EmailPar TASK

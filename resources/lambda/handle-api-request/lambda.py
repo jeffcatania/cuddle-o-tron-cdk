@@ -7,7 +7,7 @@ SM_ARN = os.environ['STATE_MACHINE_ARN']
 
 sm = boto3.client('stepfunctions')
 
-def lambda_handler(event, context):
+def handler(event, context):
     # Print event data to logs .. 
     print("Received event: " + json.dumps(event))
 
