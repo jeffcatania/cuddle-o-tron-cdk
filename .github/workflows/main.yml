@@ -28,6 +28,14 @@ jobs:
       - name: Test CDK Node code
         run: |
           npm run test
+      - name: Create and populate .env
+        run: |
+        touch .env
+        echo SES_VERIFIED_SENDER_EMAIL="${{vars.SES_VERIFIED_SENDER_EMAIL}}" >> .env
+        echo SES_VERIFIED_RECEIVER_EMAIL="${{vars.SES_VERIFIED_RECEIVER_EMAIL}}" >> .env
+        echo "cat .env"
+        cat .env
+      shell: bash
       - name: Deploy to AWS
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
