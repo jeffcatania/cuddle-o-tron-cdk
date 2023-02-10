@@ -19,6 +19,9 @@ The architecture of the project will follow the architecture of Adrian's lesson.
 3. Run `cdk synth` to generate the CloudFormation files in `cdk.out` directory. Inspect files created.
 4. Run `cdk deploy` to deploy changes to your AWS environment.
 5. Log into the AWS console and view the created CuddleOTron stack in the CloudFormation tab.
+6. Once deployed, go to the S3 console to open the Index.html file in your browser. Fill out the form using the SES_VERIFIED_RECEIVER_EMAIL you configured in the `.env` file.
+7. Watch the process run in the Step Functions tab.  Validate if theres any errors.
+8. Check your RECEIVER email address.  You should have an email.  If its not there, check your spam folder.
 
 ## Useful commands
 
