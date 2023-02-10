@@ -4,10 +4,15 @@ import {
   aws_stepfunctions as sfn,
   aws_stepfunctions_tasks as tasks,
   aws_apigateway as apigateway,
+  aws_s3 as s3,
+  aws_s3_deployment as s3Deployment,
   Duration,
+  RemovalPolicy,
+  CfnOutput,
 } from "aws-cdk-lib";
 import { Effect } from "aws-cdk-lib/aws-iam";
 import { LogGroup, LogStream } from "aws-cdk-lib/aws-logs";
+import { S3 } from "aws-cdk-lib/aws-ses-actions";
 import { Construct } from "constructs";
 import path = require("path");
 import { PROJECT_ROOT_PATH } from "./util/environment";
@@ -192,5 +197,40 @@ export class EmailReminderConstruct extends Construct {
         timeout: Duration.seconds(3),
       })
     );
+
+    new CfnOutput(this, "APIGatewayURL", { value: api.url });
+
+    const frontendBucket = new s3.Bucket(
+      this,
+      "pet-cuddleotron-frontend-bucket",
+      {
+        publicReadAccess: true,
+        removalPolicy: RemovalPolicy.DESTROY,
+        websiteIndexDocument: "index.html",
+      }
+    );
+
+    const configJSFileContents = `
+    let CONFIG = {
+      API_ENDPOINT: "${api.url}${petCuddleotronResource.node.id}"
+    };
+    `;
+    const deployment = new s3Deployment.BucketDeployment(
+      this,
+      "deployStaticWebsite",
+      {
+        sources: [
+          s3Deployment.Source.asset(
+            path.join(PROJECT_ROOT_PATH, "resources", "s3", "frontend")
+          ),
+          s3Deployment.Source.data("config.js", configJSFileContents),
+        ],
+        destinationBucket: frontendBucket,
+      }
+    );
+
+    new CfnOutput(this, "FrontendBucketURL", {
+      value: frontendBucket.urlForObject(),
+    });
   }
 }

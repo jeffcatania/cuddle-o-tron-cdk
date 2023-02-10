@@ -1,4 +1,4 @@
-var API_ENDPOINT = "REPLACEME_API_GATEWAY_INVOKE_URL";
+var API_ENDPOINT = CONFIG.API_ENDPOINT;
 // if correct it should be similar to https://somethingsomething.execute-api.us-east-1.amazonaws.com/prod/petcuddleotron
 
 var errorDiv = document.getElementById("error-message");
