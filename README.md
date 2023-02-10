@@ -11,11 +11,14 @@ The `cdk.json` file tells the CDK Toolkit how to execute the app.
 The architecture of the project will follow the architecture of Adrian's lesson.
 ![End State Architecture](ARCHITECTURE-ENDSTATE.png)
 
-# Steps to run
+# Steps to install and deploy code
 
 0. [Install CDK](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) and run `cdk bootstrap` to setup your cdk environment if you haven't already.
 1. Rename `.env.example` to `.env` to enable dotenv environment variables
 2. Update environment variables in `.env` file for your configuration.
+3. Run `cdk synth` to generate the CloudFormation files in `cdk.out` directory. Inspect files created.
+4. Run `cdk deploy` to deploy changes to your AWS environment.
+5. Log into the AWS console and view the created CuddleOTron stack in the CloudFormation tab.
 
 ## Useful commands
 
