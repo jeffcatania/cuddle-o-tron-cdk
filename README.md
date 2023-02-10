@@ -33,12 +33,18 @@ The architecture of the project will follow the architecture of Adrian's lesson.
 - `cdk diff` compare deployed stack with current state
 - `cdk synth` emits the synthesized CloudFormation template
 
-## Non Functional Requirements
+## Non Functional Features
 
 I am using the project as a testing ground for good code hygiene practices as I intend to use this as a basis for future AWS projects.
 
 - Running CDK using Typescript
 - Automated testing using Jest and the CDK Template framework. Aiming for 75% code coverage.
 - Automated Code Linting with [Prettier](https://prettier.io/docs/en/precommit.html) via git pre-commit hook.
+- GitHub action for CI.
 
-I'd love to also include mocking and runners for Lambda functions and integration tests, but that will come later.
+## TODO
+* Write integration tests for each stage of the pipeline
+* Refactor Email Reminder Construct file to seperate files.
+* Migrate Lambda code from Python to Typescript for consistency. Include unit tests.
+* Add code generators for new initializing new constructs, s3, and lambdas. (I like hygen)
+* Templatize this whole codebase for use in future projects.
