@@ -5,14 +5,14 @@ name: cuddle-o-tron package
 
 on:
   push:
-    branches: ["main"]
+    branches: ["DEV", "STAGING", "PROD"]
   pull_request:
-    branches: ["main"]
+    branches: ["DEV", "STAGING", "PROD"]
 
 jobs:
   backend:
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ github.head_ref || github.ref_name }}
     strategy:
       fail-fast: false
 
