@@ -79,7 +79,6 @@ aws_secret_access_key = YOUR-SECRET-ACCESS-KEY
 24. Click Create Access Key.
 25. Click Command Line Interface (CLI) option.
 26. Click Create access Key.  You should see the Access Keys on the page for this account.
-
 27. On GitHub, navigate to the `Settings` -> `Secrets and Variables` menu of this repo. 
 28. Click "Manage Environment", then "Create Environment". 
 29. Name the new environment "DEV'. 
