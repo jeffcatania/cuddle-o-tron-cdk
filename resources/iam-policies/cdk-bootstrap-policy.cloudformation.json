@@ -1,0 +1,107 @@
+{
+    "Parameters": {
+        "DefaultDeploymentUserName": {
+            "Description": "Name of AWS User created for initial CDK Deployment tasks",
+            "Type": "String",
+            "Default": "CDKDeploymentUser"
+        }
+    },
+    "Resources": {
+        "CDKDeploymentGroup": {
+            "Type": "AWS::IAM::Group",
+            "Properties": {
+                "GroupName": "CDKDeploymentGroup"
+            }
+        },
+        "CDKDeploymentUser": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "UserName": {
+                    "Ref": "DefaultDeploymentUserName"
+                },
+                "Groups": [
+                    {
+                        "Ref": "CDKDeploymentGroup"
+                    }
+                ]
+            }
+        },
+        "CDKGitHubActionUser": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "UserName": "CDKGitHubActionUser",
+                "Groups": [
+                    {
+                        "Ref": "CDKDeploymentGroup"
+                    }
+                ]
+            }
+        },
+        "CDKAllowDeploymentPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "Groups": [ { "Ref": "CDKDeploymentGroup"}],
+                "PolicyName": "CDKAllowDeploymentPolicy",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "StsAccess",
+                            "Effect": "Allow",
+                            "Action": [
+                                "sts:AssumeRole",
+                                "iam:*Role*"
+                            ],
+                            "Resource": [
+                                "arn:aws:iam::*:role/cdk-*"
+                            ]
+                        },
+                        {
+                            "Action": [
+                                "cloudformation:*"
+                            ],
+                            "Resource": [
+                                "arn:aws:cloudformation:us-east-1:*:stack/CDKToolkit/*"
+                            ],
+                            "Effect": "Allow"
+                        },
+                        {
+                            "Sid": "S3Access",
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:*"
+                            ],
+                            "Resource": [
+                                "*"
+                            ]
+                        },
+                        {
+                            "Sid": "ECRAccess",
+                            "Effect": "Allow",
+                            "Action": [
+                                "ecr:SetRepositoryPolicy",
+                                "ecr:GetLifecyclePolicy",
+                                "ecr:PutImageScanningConfiguration",
+                                "ecr:DescribeRepositories",
+                                "ecr:CreateRepository",
+                                "ecr:DeleteRepository"
+                            ],
+                            "Resource": [
+                                "arn:aws:ecr:us-east-1:*:repository/cdk-*"
+                            ]
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "ssm:GetParameter*",
+                                "ssm:PutParameter*",
+                                "ssm:DeleteParameter*"
+                            ],
+                            "Resource": "arn:aws:ssm:us-east-1:*:parameter/cdk-bootstrap/*"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

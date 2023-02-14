@@ -5,13 +5,14 @@ name: cuddle-o-tron package
 
 on:
   push:
-    branches: ["main"]
+    branches: ["DEV", "STAGING", "PROD"]
   pull_request:
-    branches: ["main"]
+    branches: ["DEV", "STAGING", "PROD"]
 
 jobs:
   backend:
     runs-on: ubuntu-latest
+    environment: ${{ github.head_ref || github.ref_name }}
     strategy:
       fail-fast: false
 
@@ -28,6 +29,19 @@ jobs:
       - name: Test CDK Node code
         run: |
           npm run test
+      - name: Write .env file
+        run: |
+          echo "SES_VERIFIED_SENDER_EMAIL=${{vars.SES_VERIFIED_SENDER_EMAIL}}" >> .env
+          echo "SES_VERIFIED_RECEIVER_EMAIL=${{vars.SES_VERIFIED_RECEIVER_EMAIL}}" >> .env
+          cat .env
+      - name: Deploy to AWS
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: "us-east-1"
+        shell: bash
+        run: cdk deploy --require-approval=never
+
     # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions.
     #- name: Create build directory
     #  run: |
