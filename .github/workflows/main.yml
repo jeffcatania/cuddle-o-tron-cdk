@@ -47,6 +47,16 @@ jobs:
       - name:  Run unit tests
         run: |
           npm run test -- --watchAll=false
+      - name: Build React app
+        run: |
+          npm run build
+      - name: Archive build
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build
+    #deploy:
+    #  needs: [frontend]
 
     # Removing this code section for now because I will need to figure out how to get dotenv files loaded into Github actions.
     #- name: Create build directory
